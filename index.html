@@ -27,8 +27,8 @@
           <tr>
             <th>Nome</th>
             <th>Posição</th>
-            <th>Idade</th> <th>Nacionalidade</th> <th class="data-numeric">Salário</th>
-            <th class="data-numeric">Valor Transferência</th> <th class="acao">Editar</th>
+            <th>Idade</th> <th>Nacionalidade</th> <th class="data-numeric">Altura (m)</th>
+            <th class="data-numeric">Peso (kg)</th> <th class="acao">Editar</th>
             <th class="acao">Excluir</th>
           </tr>
         </thead>
@@ -61,12 +61,12 @@
           
           <div class="row">
             <div>
-              <label for="m-salario">Salário (R$)</label>
-              <input id="m-salario" type="number" required />
+              <label for="m-altura">Altura (m)</label>
+              <input id="m-altura" type="number" required step="0.01" min="1.00" max="2.50" />
             </div>
             <div>
-              <label for="m-transferencia">Valor de Transferência (R$)</label>
-              <input id="m-transferencia" type="number" required />
+              <label for="m-peso">Peso (kg)</label>
+              <input id="m-peso" type="number" required min="50" max="150" />
             </div>
           </div>
           

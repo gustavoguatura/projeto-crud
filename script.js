@@ -4,8 +4,8 @@ const sNome = document.querySelector('#m-nome')
 const sPosicao = document.querySelector('#m-posicao')
 const sIdade = document.querySelector('#m-idade') // NOVO
 const sNacionalidade = document.querySelector('#m-nacionalidade') // NOVO
-const sSalario = document.querySelector('#m-salario')
-const sTransferencia = document.querySelector('#m-transferencia') // NOVO
+const sAltura = document.querySelector('#m-altura') // ANTIGO sSalario
+const sPeso = document.querySelector('#m-peso') // ANTIGO sTransferencia
 const btnSalvar = document.querySelector('#btnSalvar')
 
 let itens
@@ -25,8 +25,8 @@ function openModal(edit = false, index = 0) {
     sPosicao.value = itens[index].posicao
     sIdade.value = itens[index].idade // NOVO
     sNacionalidade.value = itens[index].nacionalidade // NOVO
-    sSalario.value = itens[index].salario
-    sTransferencia.value = itens[index].transferencia // NOVO
+    sAltura.value = itens[index].altura // ALTERADO
+    sPeso.value = itens[index].peso // ALTERADO
     id = index
   } else {
     // Limpar todos os campos ao abrir para novo registro
@@ -34,8 +34,8 @@ function openModal(edit = false, index = 0) {
     sPosicao.value = ''
     sIdade.value = '' // NOVO
     sNacionalidade.value = '' // NOVO
-    sSalario.value = ''
-    sTransferencia.value = '' // NOVO
+    sAltura.value = '' // ALTERADO
+    sPeso.value = '' // ALTERADO
     id = undefined
   }
   
@@ -51,23 +51,32 @@ function deleteItem(index) {
   loadItens()
 }
 
+// REMOVIDA A FUNÇÃO formatCurrency
+/*
 // Função utilitária para formatar valores monetários
 const formatCurrency = (value) => {
     if (value === null || value === undefined || value === '') return 'R$ 0';
     return `R$ ${parseFloat(value).toLocaleString('pt-BR', { minimumFractionDigits: 0 })}`;
 }
+*/
 
 
 function insertItem(item, index) {
   let tr = document.createElement('tr')
+  
+  // Função para formatar números com casas decimais (para Altura)
+  const formatDecimal = (value) => {
+      if (value === null || value === undefined || value === '') return 'N/A';
+      return parseFloat(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
 
   tr.innerHTML = `
     <td>${item.nome}</td>
     <td>${item.posicao}</td>
     <td>${item.idade}</td>
     <td>${item.nacionalidade}</td>
-    <td class="data-numeric">${formatCurrency(item.salario)}</td>
-    <td class="data-numeric">${formatCurrency(item.transferencia)}</td>
+    <td class="data-numeric">${formatDecimal(item.altura)}</td>
+    <td class="data-numeric">${item.peso}</td>
     <td class="acao">
       <button onclick="editItem(${index})"><i class='bx bx-edit' ></i></button>
     </td>
@@ -80,7 +89,7 @@ function insertItem(item, index) {
 
 btnSalvar.onclick = e => {
   
-  if (sNome.value === '' || sPosicao.value === '' || sIdade.value === '' || sNacionalidade.value === '' || sSalario.value === '' || sTransferencia.value === '') {
+  if (sNome.value === '' || sPosicao.value === '' || sIdade.value === '' || sNacionalidade.value === '' || sAltura.value === '' || sPeso.value === '') {
     alert('Preencha todos os campos obrigatórios.');
     return
   }
@@ -92,8 +101,8 @@ btnSalvar.onclick = e => {
     posicao: sPosicao.value,
     idade: sIdade.value, // NOVO
     nacionalidade: sNacionalidade.value, // NOVO
-    salario: sSalario.value,
-    transferencia: sTransferencia.value, // NOVO
+    altura: sAltura.value, // ALTERADO
+    peso: sPeso.value, // ALTERADO
   }
 
   if (id !== undefined) {
@@ -124,3 +133,4 @@ const getItensBD = () => JSON.parse(localStorage.getItem('dbfunc')) ?? []
 const setItensBD = () => localStorage.setItem('dbfunc', JSON.stringify(itens))
 
 loadItens()
+// REMOVIDA A CHAVE EXTRA }
