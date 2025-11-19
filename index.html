@@ -1,84 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro de Atletas</title>
-  <link rel="stylesheet" href="style.css">
-  <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZNH Store | Moda e Estilo</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <div class="container">
-    <div class="header">
-      <div class="brand">
-        <span class="title">Cadastro de Atletas</span>
-      </div>
-      <button class="btn primary" onclick="openModal()" id="new">
-        <i class='bx bx-plus-circle'></i> Incluir
-      </button>
-    </div>
 
-    <div class="divTable">
-      <table>
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Posição</th>
-            <th>Idade</th> <th>Nacionalidade</th> <th class="data-numeric">Altura (m)</th>
-            <th class="data-numeric">Peso (kg)</th> <th class="acao">Editar</th>
-            <th class="acao">Excluir</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
+    <header>
+        <div class="logo"><a href="index.html">ZNH STORE</a></div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="pedidos.html">Produtos</a></li>
+                <li><a href="contato.html">Contato</a></li>
+                <li><a href="crud-produtos.html">Admin CRUD</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <div class="modal-container">
-      <div class="modal">
-        <form>
-          <h3>Detalhes do Atleta</h3>
-          
-          <label for="m-nome">Nome</label>
-          <input id="m-nome" type="text" required />
-  
-          <div class="row">
-            <div>
-              <label for="m-posicao">Posição</label>
-              <input id="m-posicao" type="text" required />
-            </div>
-            <div>
-              <label for="m-idade">Idade</label>
-              <input id="m-idade" type="number" required min="16" max="50" />
-            </div>
-          </div>
-  
-          <label for="m-nacionalidade">Nacionalidade</label>
-          <input id="m-nacionalidade" type="text" required />
-          
-          <div class="row">
-            <div>
-              <label for="m-altura">Altura (m)</label>
-              <input id="m-altura" type="number" required step="0.01" min="1.00" max="2.50" />
-            </div>
-            <div>
-              <label for="m-peso">Peso (kg)</label>
-              <input id="m-peso" type="number" required min="50" max="150" />
-            </div>
-          </div>
-          
-          <div class="footer">
-            <button class="btn primary" id="btnSalvar">Salvar</button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <main>
+        <section class="banner">
+            <h1>Nova Coleção de Verão</h1>
+            <p>Descubra as últimas tendências e peças essenciais para seu guarda-roupa.</p>
+            <a href="pedidos.html" class="btn-detalhes">Ver Coleção Completa</a>
+        </section>
 
-  </div>
-  <script src="script.js"></script>
+        <hr>
+
+        <h2>✨ Destaques da Semana</h2>
+        
+        <div class="container-produtos">
+            
+            <div class="card-produto">
+                <div class="espaco-imagem">
+                    <img src="rocketsjersey.jpg" alt="Regata Houston Rockets">
+                </div>
+                <h3>Regata NBA - Houston Rockets</h3>
+                <p>Vista o novo manto de Kevin Durant</p>
+                <p class="preco">R$ 399,90</p>
+                <a href="pedidos.html" class="btn-detalhes">Comprar</a>
+            </div>
+
+            <div class="card-produto">
+                <div class="espaco-imagem">
+                    <img src="barcelona_calcao.jpg" alt="Calção FC Barcelona">
+                </div>
+                <h3>Calção FC Barcelona - 25/26</h3>
+                <p>Conforto na hora de jogar futebol</p>
+                <p class="preco">R$ 129,90</p>
+                <a href="pedidos.html" class="btn-detalhes">Comprar</a>
+            </div>
+
+            <div class="card-produto">
+                <div class="espaco-imagem">
+                    <img src="boneravens.jpg" alt="Boné Baltimore Ravens">
+                </div>
+                <h3>Boné New Era - Baltimore Ravens</h3>
+                <p>Estilo indispensável</p>
+                <p class="preco">R$ 175,00</p>
+                <a href="pedidos.html" class="btn-detalhes">Comprar</a>
+            </div>
+            
+        </div>
+    </main>
+
+    <footer>
+        <p style="text-align: center; padding: 20px; background-color: #eee;">&copy; 2024 ZNH Store. Todos os direitos reservados.</p>
+    </footer>
+
 </body>
-
 </html>

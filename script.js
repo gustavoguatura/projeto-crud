@@ -1,136 +1,118 @@
-const modal = document.querySelector('.modal-container')
-const tbody = document.querySelector('tbody')
-const sNome = document.querySelector('#m-nome')
-const sPosicao = document.querySelector('#m-posicao')
-const sIdade = document.querySelector('#m-idade') // NOVO
-const sNacionalidade = document.querySelector('#m-nacionalidade') // NOVO
-const sAltura = document.querySelector('#m-altura') // ANTIGO sSalario
-const sPeso = document.querySelector('#m-peso') // ANTIGO sTransferencia
-const btnSalvar = document.querySelector('#btnSalvar')
-
-let itens
-let id
-
-function openModal(edit = false, index = 0) {
-  modal.classList.add('active')
-
-  modal.onclick = e => {
-    if (e.target.className.indexOf('modal-container') !== -1) {
-      modal.classList.remove('active')
-    }
-  }
-
-  if (edit) {
-    sNome.value = itens[index].nome
-    sPosicao.value = itens[index].posicao
-    sIdade.value = itens[index].idade // NOVO
-    sNacionalidade.value = itens[index].nacionalidade // NOVO
-    sAltura.value = itens[index].altura // ALTERADO
-    sPeso.value = itens[index].peso // ALTERADO
-    id = index
-  } else {
-    // Limpar todos os campos ao abrir para novo registro
-    sNome.value = ''
-    sPosicao.value = ''
-    sIdade.value = '' // NOVO
-    sNacionalidade.value = '' // NOVO
-    sAltura.value = '' // ALTERADO
-    sPeso.value = '' // ALTERADO
-    id = undefined
-  }
+// script.js
+document.addEventListener('DOMContentLoaded', () => {
+  const formProduto = document.getElementById('form-produto');
+  const tabelaProdutosBody = document.querySelector('#tabela-produtos tbody');
   
-}
-
-function editItem(index) {
-  openModal(true, index)
-}
-
-function deleteItem(index) {
-  itens.splice(index, 1)
-  setItensBD()
-  loadItens()
-}
-
-// REMOVIDA A FUNÇÃO formatCurrency
-/*
-// Função utilitária para formatar valores monetários
-const formatCurrency = (value) => {
-    if (value === null || value === undefined || value === '') return 'R$ 0';
-    return `R$ ${parseFloat(value).toLocaleString('pt-BR', { minimumFractionDigits: 0 })}`;
-}
-*/
-
-
-function insertItem(item, index) {
-  let tr = document.createElement('tr')
-  
-  // Função para formatar números com casas decimais (para Altura)
-  const formatDecimal = (value) => {
-      if (value === null || value === undefined || value === '') return 'N/A';
-      return parseFloat(value).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  // 1. Função para Obter Produtos do LocalStorage
+  function getProdutos() {
+      const produtos = localStorage.getItem('znh_produtos');
+      return produtos ? JSON.parse(produtos) : [];
   }
 
-  tr.innerHTML = `
-    <td>${item.nome}</td>
-    <td>${item.posicao}</td>
-    <td>${item.idade}</td>
-    <td>${item.nacionalidade}</td>
-    <td class="data-numeric">${formatDecimal(item.altura)}</td>
-    <td class="data-numeric">${item.peso}</td>
-    <td class="acao">
-      <button onclick="editItem(${index})"><i class='bx bx-edit' ></i></button>
-    </td>
-    <td class="acao">
-      <button onclick="deleteItem(${index})"><i class='bx bx-trash'></i></button>
-    </td>
-  `
-  tbody.appendChild(tr)
-}
-
-btnSalvar.onclick = e => {
-  
-  if (sNome.value === '' || sPosicao.value === '' || sIdade.value === '' || sNacionalidade.value === '' || sAltura.value === '' || sPeso.value === '') {
-    alert('Preencha todos os campos obrigatórios.');
-    return
+  // 2. Função para Salvar Produtos no LocalStorage
+  function saveProdutos(produtos) {
+      localStorage.setItem('znh_produtos', JSON.stringify(produtos));
   }
 
-  e.preventDefault();
+  // 3. Função de Renderização (READ)
+  function renderProdutos() {
+      const produtos = getProdutos();
+      tabelaProdutosBody.innerHTML = ''; // Limpa a tabela antes de preencher
 
-  const novoItem = {
-    nome: sNome.value,
-    posicao: sPosicao.value,
-    idade: sIdade.value, // NOVO
-    nacionalidade: sNacionalidade.value, // NOVO
-    altura: sAltura.value, // ALTERADO
-    peso: sPeso.value, // ALTERADO
+      if (produtos.length === 0) {
+          tabelaProdutosBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Nenhum produto cadastrado.</td></tr>';
+          return;
+      }
+
+      produtos.forEach(produto => {
+          const row = tabelaProdutosBody.insertRow();
+          row.insertCell().textContent = produto.id;
+          row.insertCell().textContent = produto.nome;
+          row.insertCell().textContent = `R$ ${parseFloat(produto.preco).toFixed(2)}`;
+          
+          const cellAcoes = row.insertCell();
+          
+          // Botão Editar
+          const btnEditar = document.createElement('button');
+          btnEditar.textContent = 'Editar';
+          btnEditar.className = 'btn-crud btn-editar';
+          btnEditar.onclick = () => carregarProduto(produto.id);
+          cellAcoes.appendChild(btnEditar);
+
+          // Botão Excluir
+          const btnExcluir = document.createElement('button');
+          btnExcluir.textContent = 'Excluir';
+          btnExcluir.className = 'btn-crud btn-excluir';
+          btnExcluir.onclick = () => excluirProduto(produto.id);
+          cellAcoes.appendChild(btnExcluir);
+      });
   }
 
-  if (id !== undefined) {
-    // Edição
-    itens[id] = novoItem;
-  } else {
-    // Inclusão
-    itens.push(novoItem)
+  // 4. Função para Cadastrar/Atualizar (CREATE/UPDATE)
+  formProduto.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const id = document.getElementById('produto-id').value;
+      const nome = document.getElementById('nome').value;
+      const preco = document.getElementById('preco').value;
+      const imagemUrl = document.getElementById('imagem-url').value;
+      const descricao = document.getElementById('descricao').value;
+
+      const produtoData = { nome, preco, imagemUrl, descricao };
+      let produtos = getProdutos();
+
+      if (id) {
+          // Se tem ID, é uma ATUALIZAÇÃO
+          const index = produtos.findIndex(p => p.id == id);
+          if (index !== -1) {
+              produtos[index] = { ...produtos[index], ...produtoData };
+          }
+      } else {
+          // Se não tem ID, é um NOVO CADASTRO
+          const novoId = produtos.length > 0 ? Math.max(...produtos.map(p => p.id)) + 1 : 1;
+          produtos.push({ id: novoId, ...produtoData });
+      }
+
+      saveProdutos(produtos);
+      formProduto.reset();
+      document.getElementById('produto-id').value = ''; // Limpa o ID após salvar
+      renderProdutos();
+      alert(`Produto ${id ? 'atualizado' : 'cadastrado'} com sucesso!`);
+  });
+
+  // 5. Função para Carregar Produto para Edição
+  function carregarProduto(id) {
+      const produtos = getProdutos();
+      const produto = produtos.find(p => p.id == id);
+      
+      if (produto) {
+          document.getElementById('produto-id').value = produto.id;
+          document.getElementById('nome').value = produto.nome;
+          document.getElementById('preco').value = produto.preco;
+          document.getElementById('imagem-url').value = produto.imagemUrl;
+          document.getElementById('descricao').value = produto.descricao;
+          document.getElementById('btn-salvar').textContent = 'Atualizar Produto';
+          window.scrollTo({ top: 0, behavior: 'smooth' }); // Volta ao topo para editar
+      }
   }
 
-  setItensBD()
+  // 6. Função para Excluir (DELETE)
+  window.excluirProduto = function(id) { // Colocamos no window para ser acessível pelo onclick
+      if (confirm('Tem certeza que deseja excluir este produto?')) {
+          let produtos = getProdutos();
+          produtos = produtos.filter(p => p.id != id);
+          saveProdutos(produtos);
+          renderProdutos();
+          alert('Produto excluído!');
+      }
+  }
 
-  modal.classList.remove('active')
-  loadItens()
-  id = undefined
-}
+  // 7. Evento para Limpar/Cancelar Edição
+  document.getElementById('btn-cancelar').addEventListener('click', () => {
+      document.getElementById('produto-id').value = '';
+      document.getElementById('btn-salvar').textContent = 'Salvar Produto';
+  });
 
-function loadItens() {
-  itens = getItensBD()
-  tbody.innerHTML = ''
-  itens.forEach((item, index) => {
-    insertItem(item, index)
-  })
-
-}
-
-const getItensBD = () => JSON.parse(localStorage.getItem('dbfunc')) ?? []
-const setItensBD = () => localStorage.setItem('dbfunc', JSON.stringify(itens))
-
-loadItens()
-// REMOVIDA A CHAVE EXTRA }
+  // Renderiza a lista inicial ao carregar a página
+  renderProdutos();
+});
