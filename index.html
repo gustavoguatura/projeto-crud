@@ -40,7 +40,7 @@
                 <h3>Regata NBA - Houston Rockets</h3>
                 <p>Vista o novo manto de Kevin Durant</p>
                 <p class="preco">R$ 399,90</p>
-                <a href="pedidos.html" class="btn-detalhes">Comprar</a>
+                <button class="btn-detalhes" onclick="abrirModal(101)">Comprar/Avaliar</button>
             </div>
 
             <div class="card-produto">
@@ -50,7 +50,7 @@
                 <h3>Calção FC Barcelona - 25/26</h3>
                 <p>Conforto na hora de jogar futebol</p>
                 <p class="preco">R$ 129,90</p>
-                <a href="pedidos.html" class="btn-detalhes">Comprar</a>
+                <button class="btn-detalhes" onclick="abrirModal(102)">Comprar/Avaliar</button>
             </div>
 
             <div class="card-produto">
@@ -60,7 +60,7 @@
                 <h3>Boné New Era - Baltimore Ravens</h3>
                 <p>Estilo indispensável</p>
                 <p class="preco">R$ 175,00</p>
-                <a href="pedidos.html" class="btn-detalhes">Comprar</a>
+                <button class="btn-detalhes" onclick="abrirModal(103)">Comprar/Avaliar</button>
             </div>
             
         </div>
@@ -70,5 +70,40 @@
         <p style="text-align: center; padding: 20px; background-color: #eee;">&copy; 2024 ZNH Store. Todos os direitos reservados.</p>
     </footer>
 
+    <div id="modal-compra" class="modal">
+        <div class="modal-conteudo">
+            <span class="fechar-btn">&times;</span>
+            
+            <h2 id="modal-titulo"></h2>
+            <p id="modal-preco"></p>
+            
+            <hr>
+            
+            <h3>Detalhes do Pedido</h3>
+            <form id="form-pedido-modal">
+                
+                <label for="tamanho-modal">Tamanho/Opção:</label>
+                <input type="text" id="tamanho-modal" placeholder="Ex: M, G, 42, Preto" required>
+                
+                <label for="cep-modal">CEP para Cálculo de Frete:</label>
+                <input type="text" id="cep-modal" placeholder="Apenas números, Ex: 12345678" maxlength="8" required>
+                
+                <label for="observacao-modal">Observações (Opcional):</label>
+                <textarea id="observacao-modal" rows="3"></textarea>
+                
+                <button type="submit" class="btn-detalhes" id="btn-finalizar-whatsapp">Finalizar Pedido via WhatsApp</button>
+            </form>
+
+            <hr style="margin-top: 30px;">
+            
+            <h3>⭐ Avaliações dos Clientes</h3>
+            <div id="avaliacoes-espaco">
+                <p>Aguardando o carregamento dinâmico...</p>
+            </div>
+            
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>

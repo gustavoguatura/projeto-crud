@@ -25,43 +25,48 @@
         <p>Explore nossa coleção completa e faça seu pedido facilmente via WhatsApp.</p>
         
         <div class="container-produtos" id="lista-produtos">
-            
-            <div class="card-produto">
-                <div class="espaco-imagem">
-                    <img src="camisa1998.webp" alt="Camisa Brasil 1998 Remake">
-                </div>
-                <h3>Camisa Seleção Brasileira - 1998 - Remake 2024</h3>
-                <p>Tamanhos: P, M, G | Cores: Amarelo, Verde</p>
-                <p class="preco">R$ 629,00</p>
-                <button class="btn-acao">Pedir via WhatsApp</button>
             </div>
-
-            <div class="card-produto">
-                <div class="espaco-imagem">
-                    <img src="shai001.jpg" alt="SHAI 001">
-                </div>
-                <h3>Tênis SHAI 001 - Converse</h3>
-                <p>Tamanhos: 39 a 46</p>
-                <p class="preco">R$ 540,00</p>
-                <button class="btn-acao">Pedir via WhatsApp</button>
-            </div>
-
-            <div class="card-produto">
-                <div class="espaco-imagem">
-                    <img src="nike-lebron-witness-9-gs-black-HV2270-001-1.webp" alt="Lebron Witness IX">
-                </div>
-                <h3>Tênis Lebron Witness IX - Nike</h3>
-                <p>Tamanhos: 35 ao 48</p>
-                <p class="preco">R$ 499,90</p>
-                <button class="btn-acao">Pedir via WhatsApp</button>
-            </div>
-            
-            </div>
+        
     </main>
     
     <footer>
         <p style="text-align: center; padding: 20px; background-color: #eee;">&copy; 2024 ZNH Store. Todos os direitos reservados.</p>
     </footer>
 
+    <div id="modal-compra" class="modal">
+        <div class="modal-conteudo">
+            <span class="fechar-btn">&times;</span>
+            
+            <h2 id="modal-titulo"></h2>
+            <p id="modal-preco"></p>
+            
+            <hr>
+            
+            <h3>Detalhes do Pedido</h3>
+            <form id="form-pedido-modal">
+                
+                <label for="tamanho-modal">Tamanho/Opção:</label>
+                <input type="text" id="tamanho-modal" placeholder="Ex: M, G, 42, Preto" required>
+                
+                <label for="cep-modal">CEP para Cálculo de Frete:</label>
+                <input type="text" id="cep-modal" placeholder="Apenas números, Ex: 12345678" maxlength="8" required>
+                
+                <label for="observacao-modal">Observações (Opcional):</label>
+                <textarea id="observacao-modal" rows="3"></textarea>
+                
+                <button type="submit" class="btn-detalhes" id="btn-finalizar-whatsapp">Finalizar Pedido via WhatsApp</button>
+            </form>
+
+            <hr style="margin-top: 30px;">
+            
+            <h3>⭐ Avaliações dos Clientes</h3>
+            <div id="avaliacoes-espaco">
+                <p>Nenhuma avaliação disponível para este produto ainda.</p>
+            </div>
+            
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
 </body>
 </html>
